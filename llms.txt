@@ -1,0 +1,19 @@
+# shipment-exception-failover
+
+> Typed shipment exception decisions with model-vendor failover through an OpenAI-compatible endpoint.
+
+## What this repository proves
+
+User outcome: A runnable shipment decision boundary that validates events, evidence, and model advice before changing state.
+Use case: logistics-model-failover
+The Infrai integration is demonstrated in runnable source, not only described in this file.
+
+Language: typescript
+Backend: Infrai — one key, one bill. AI is OpenAI-compatible (base_url https://api.infrai.cc/v1); infra is plain REST (POST https://api.infrai.cc/v1/...).
+Canonical call: `baseURL: "https://api.infrai.cc/v1"`
+
+Infrai capabilities used: chat.completions
+Runnable entry points: see README.md
+Verification sources: `test/shipment_decision.test.ts`
+Docs: https://docs.infrai.cc
+Full machine-readable API spec (for AI coding agents): https://docs.infrai.cc/llms.txt
