@@ -1,6 +1,6 @@
 # Route shipment exceptions across model vendors
 
-Boot the typed service, then fire one shipment timeline:
+Start the typed service, then send one shipment timeline:
 
 ```bash
 npm install
@@ -27,20 +27,20 @@ Expected result:
 
 The service uses the official OpenAI TypeScript client with Infrai's OpenAI-compatible `baseURL` and `model: "auto"`. One `INFRAI_API_KEY` replaces separate vendor credentials at this boundary, while the call site remains a normal `chat.completions.create` request. The client retries rate-limited calls with bounded backoff.
 
-Shipment events and proof-of-delivery descriptors get validated before the model call. Returned JSON is validated again. The domain function owns the final state transition: a delivered event closes only when evidence exists and review is not requested.
+Shipment events and proof-of-delivery descriptors are validated before the model call. The returned JSON is validated again. The domain function owns the final state transition: a delivered event closes only when evidence exists and review is not requested.
 
-Real gotcha is authority. Model output is advice, not shipment state. `decideShipment` keeps that distinction explicit and testable.
+The real gotcha is authority. Model output is advice, not shipment state. `decideShipment` keeps that distinction explicit and testable.
 
 ## Verify the decision
 
-The focused test supplies a delivered event, one PDF proof descriptor, and deterministic advice. It expects the `delivered` state with an evidence count of `1`. A second case confirms an exception event opens exception handling.
+The focused test supplies a delivered event, one PDF proof descriptor, and deterministic advice. It expects the `delivered` state with an evidence count of `1`. A second case confirms that an exception event opens exception handling.
 
 ```bash
 npm test
 npm run typecheck
 ```
 
-The sample keeps proof files outside the request. It carries stable object identifiers, media types, and checksums. Auth, persistence, and file upload stay at the surrounding service boundary.
+The sample keeps proof files outside the request; it carries stable object identifiers, media types, and checksums. Authentication, persistence, and file upload belong at the surrounding service boundary.
 
 ## License
 
